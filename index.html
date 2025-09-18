@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecureVote - Trusted Online Voting Platform</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Open+Sans:wght@400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Skip Navigation -->
+    <a href="#main-content" class="sr-only">Skip to main content</a>
+
+    <!-- Navigation Header -->
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
+        <div class="container">
+            <div class="nav-content">
+                <div class="nav-brand">
+                    <svg class="logo-icon" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                        <rect x="4" y="8" width="24" height="16" rx="3" fill="var(--color-primary)" opacity="0.2"/>
+                        <rect x="6" y="10" width="20" height="12" rx="2" fill="var(--color-primary)"/>
+                        <circle cx="16" cy="16" r="3" fill="var(--color-surface)"/>
+                        <path d="M14 16L15.5 17.5L18 14.5" stroke="var(--color-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span class="brand-text">SecureVote</span>
+                </div>
+                <div class="nav-actions">
+                    <button class="btn btn--outline" id="loginBtn" aria-label="Open login modal">Login</button>
+                    <button class="btn btn--primary" id="registerBtn" aria-label="Open registration modal">Register</button>
+                    <button class="btn btn--secondary" id="logoutBtn" style="display: none;">Logout</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main id="main-content">
+        <!-- Landing Page -->
+        <section id="landingPage" class="page-section active">
+            <!-- Hero Section -->
+            <section class="hero">
+                <div class="container">
+                    <div class="hero-content">
+                        <div class="hero-text">
+                            <h1 class="hero-title">Secure, accessible voting for all</h1>
+                            <p class="hero-subtitle">Experience democracy in the digital age with our trusted, transparent, and secure voting platform.</p>
+                            <div class="hero-actions">
+                                <button class="btn btn--primary btn--lg" id="getStartedBtn">Get Started</button>
+                                <button class="btn btn--outline btn--lg" id="learnMoreBtn">Learn More</button>
+                            </div>
+                        </div>
+                        <div class="hero-visual">
+                            <div class="voting-illustration">
+                                <svg width="400" height="300" viewBox="0 0 400 300" fill="none">
+                                    <!-- Ballot box -->
+                                    <rect x="150" y="180" width="100" height="80" rx="8" fill="var(--color-primary)" opacity="0.1"/>
+                                    <rect x="155" y="185" width="90" height="70" rx="6" fill="var(--color-surface)" stroke="var(--color-border)" stroke-width="2"/>
+                                    <!-- Ballot slot -->
+                                    <rect x="175" y="175" width="50" height="4" rx="2" fill="var(--color-border)"/>
+                                    <!-- Ballot paper -->
+                                    <rect x="120" y="100" width="80" height="60" rx="4" fill="var(--color-surface)" stroke="var(--color-border)" stroke-width="2"/>
+                                    <!-- Checkmarks on ballot -->
+                                    <circle cx="135" cy="120" r="6" fill="var(--color-primary)" opacity="0.2"/>
+                                    <path d="M132 120L134 122L138 117" stroke="var(--color-primary)" stroke-width="2" stroke-linecap="round"/>
+                                    <circle cx="135" cy="140" r="6" fill="var(--color-success)" opacity="0.2"/>
+                                    <path d="M132 140L134 142L138 137" stroke="var(--color-success)" stroke-width="2" stroke-linecap="round"/>
+                                    <!-- Arrow indicating ballot insertion -->
+                                    <path d="M200 140L200 170" stroke="var(--color-primary)" stroke-width="3" stroke-linecap="round" marker-end="url(#arrowhead)"/>
+                                    <!-- Security shield -->
+                                    <path d="M280 120L290 110L300 120V140C300 150 290 160 290 160C290 160 280 150 280 140V120Z" fill="var(--color-success)" opacity="0.8"/>
+                                    <path d="M285 130L287 132L293 125" stroke="var(--color-surface)" stroke-width="2" stroke-linecap="round"/>
+                                    <defs>
+                                        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                            <polygon points="0 0, 10 3.5, 0 7" fill="var(--color-primary)"/>
+                                        </marker>
+                                    </defs>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Trust Indicators -->
+            <section class="trust-section">
+                <div class="container">
+                    <div class="trust-stats">
+                        <div class="trust-stat">
+                            <div class="stat-number" id="totalUsers">15,420</div>
+                            <div class="stat-label">Verified Users</div>
+                        </div>
+                        <div class="trust-stat">
+                            <div class="stat-number" id="activeElections">3</div>
+                            <div class="stat-label">Active Elections</div>
+                        </div>
+                        <div class="trust-stat">
+                            <div class="stat-number" id="completedVotes">12,847</div>
+                            <div class="stat-label">Votes Cast</div>
+                        </div>
+                    </div>
+                    <div class="trust-indicators">
+                        <div class="trust-indicator" id="trustIndicators"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Elections Carousel -->
+            <section class="elections-section">
+                <div class="container">
+                    <h2 class="section-title">Upcoming Elections</h2>
+                    <div class="elections-carousel">
+                        <div class="carousel-container" id="electionsCarousel">
+                            <!-- Elections will be loaded here -->
+                        </div>
+                        <button class="carousel-btn carousel-prev" id="carouselPrev" aria-label="Previous election">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M15 18L9 12L15 6"/>
+                            </svg>
+                        </button>
+                        <button class="carousel-btn carousel-next" id="carouselNext" aria-label="Next election">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 18L15 12L9 6"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </section>
+
+        <!-- Voter Dashboard -->
+        <section id="voterDashboard" class="page-section">
+            <div class="container">
+                <div class="dashboard-header">
+                    <h1 class="dashboard-title">Welcome back, <span id="userName">Voter</span></h1>
+                    <p class="dashboard-subtitle">Your elections and voting history</p>
+                </div>
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <h3>Available Elections</h3>
+                        <div id="availableElections" class="elections-list">
+                            <!-- Elections will be loaded here -->
+                        </div>
+                    </div>
+                    <div class="dashboard-card">
+                        <h3>Your Voting History</h3>
+                        <div id="votingHistory" class="voting-history">
+                            <p class="no-history">No voting history yet. Cast your first vote!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Admin Dashboard -->
+        <section id="adminDashboard" class="page-section">
+            <div class="container">
+                <div class="dashboard-header">
+                    <h1 class="dashboard-title">Admin Dashboard</h1>
+                    <p class="dashboard-subtitle">Manage elections and monitor participation</p>
+                </div>
+                <div class="admin-stats">
+                    <div class="admin-stat-card">
+                        <h4>Total Elections</h4>
+                        <div class="stat-number">3</div>
+                    </div>
+                    <div class="admin-stat-card">
+                        <h4>Active Voters</h4>
+                        <div class="stat-number">15,420</div>
+                    </div>
+                    <div class="admin-stat-card">
+                        <h4>Total Votes</h4>
+                        <div class="stat-number">12,847</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Voting Interface -->
+        <section id="votingInterface" class="page-section">
+            <div class="container">
+                <div class="voting-header">
+                    <h1 id="ballotTitle" class="ballot-title">Election Ballot</h1>
+                    <div class="progress-container">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                        <span class="progress-text" id="progressText">Question 1 of 2</span>
+                    </div>
+                </div>
+                <div class="ballot-container">
+                    <div id="ballotContent" class="ballot-content">
+                        <!-- Ballot questions will be loaded here -->
+                    </div>
+                    <div class="ballot-actions">
+                        <button class="btn btn--outline" id="prevQuestion" style="display: none;">Previous</button>
+                        <button class="btn btn--primary" id="nextQuestion">Next</button>
+                        <button class="btn btn--primary" id="reviewBallot" style="display: none;">Review Ballot</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Review Screen -->
+        <section id="reviewScreen" class="page-section">
+            <div class="container">
+                <div class="review-header">
+                    <h1>Review Your Ballot</h1>
+                    <p>Please review your selections before submitting your vote.</p>
+                </div>
+                <div id="reviewContent" class="review-content">
+                    <!-- Review content will be loaded here -->
+                </div>
+                <div class="review-actions">
+                    <button class="btn btn--outline" id="backToBallot">Back to Ballot</button>
+                    <button class="btn btn--primary" id="submitVote">Submit Vote</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Results Page -->
+        <section id="resultsPage" class="page-section">
+            <div class="container">
+                <div class="results-header">
+                    <div class="success-animation" id="successAnimation">
+                        <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+                            <circle cx="40" cy="40" r="35" fill="var(--color-success)" opacity="0.1" stroke="var(--color-success)" stroke-width="2"/>
+                            <path d="M25 40L35 50L55 30" stroke="var(--color-success)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h1>Thank You for Voting!</h1>
+                    <p>Your vote has been successfully submitted and recorded.</p>
+                </div>
+                <div class="results-content">
+                    <div class="participation-card">
+                        <h3>Your Participation</h3>
+                        <p>You have successfully participated in this election. Your voice matters!</p>
+                        <button class="btn btn--primary" id="shareParticipation">Share Participation</button>
+                    </div>
+                    <div class="results-chart-container">
+                        <h3>Election Results</h3>
+                        <canvas id="resultsChart" width="400" height="200"></canvas>
+                    </div>
+                </div>
+                <div class="results-actions">
+                    <button class="btn btn--primary" id="returnToDashboard">Return to Dashboard</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Authentication Modals -->
+    <div id="loginModal" class="modal hidden" role="dialog" aria-labelledby="loginModalTitle" aria-modal="true">
+        <div class="modal-backdrop" aria-hidden="true"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="loginModalTitle">Login to SecureVote</h2>
+                <button class="modal-close" aria-label="Close login modal">&times;</button>
+            </div>
+            <form id="loginForm" class="auth-form">
+                <div class="form-group">
+                    <label class="form-label" for="loginEmail">Email Address</label>
+                    <input type="email" id="loginEmail" class="form-control" required aria-describedby="loginEmailError">
+                    <div id="loginEmailError" class="form-error" aria-live="polite"></div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" class="form-control" required aria-describedby="loginPasswordError">
+                    <div id="loginPasswordError" class="form-error" aria-live="polite"></div>
+                </div>
+                <button type="submit" class="btn btn--primary btn--full-width">Login</button>
+            </form>
+            <div class="auth-footer">
+                <p>Don't have an account? <a href="#" id="switchToRegister">Register here</a></p>
+            </div>
+        </div>
+    </div>
+
+    <div id="registerModal" class="modal hidden" role="dialog" aria-labelledby="registerModalTitle" aria-modal="true">
+        <div class="modal-backdrop" aria-hidden="true"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="registerModalTitle">Create Account</h2>
+                <button class="modal-close" aria-label="Close registration modal">&times;</button>
+            </div>
+            <form id="registerForm" class="auth-form">
+                <div class="form-group">
+                    <label class="form-label" for="registerName">Full Name</label>
+                    <input type="text" id="registerName" class="form-control" required aria-describedby="registerNameError">
+                    <div id="registerNameError" class="form-error" aria-live="polite"></div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="registerEmail">Email Address</label>
+                    <input type="email" id="registerEmail" class="form-control" required aria-describedby="registerEmailError">
+                    <div id="registerEmailError" class="form-error" aria-live="polite"></div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="registerPassword">Password</label>
+                    <input type="password" id="registerPassword" class="form-control" required aria-describedby="registerPasswordError">
+                    <div class="password-strength" id="passwordStrength"></div>
+                    <div id="registerPasswordError" class="form-error" aria-live="polite"></div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="registerConfirmPassword">Confirm Password</label>
+                    <input type="password" id="registerConfirmPassword" class="form-control" required aria-describedby="registerConfirmPasswordError">
+                    <div id="registerConfirmPasswordError" class="form-error" aria-live="polite"></div>
+                </div>
+                <button type="submit" class="btn btn--primary btn--full-width">Create Account</button>
+            </form>
+            <div class="auth-footer">
+                <p>Already have an account? <a href="#" id="switchToLogin">Login here</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Two-Factor Authentication Modal -->
+    <div id="twoFactorModal" class="modal hidden" role="dialog" aria-labelledby="twoFactorModalTitle" aria-modal="true">
+        <div class="modal-backdrop" aria-hidden="true"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="twoFactorModalTitle">Two-Factor Authentication</h2>
+            </div>
+            <div class="tfa-content">
+                <p>Please enter the verification code sent to your email address.</p>
+                <form id="twoFactorForm">
+                    <div class="verification-input">
+                        <input type="text" maxlength="1" class="verification-digit" aria-label="First digit">
+                        <input type="text" maxlength="1" class="verification-digit" aria-label="Second digit">
+                        <input type="text" maxlength="1" class="verification-digit" aria-label="Third digit">
+                        <input type="text" maxlength="1" class="verification-digit" aria-label="Fourth digit">
+                        <input type="text" maxlength="1" class="verification-digit" aria-label="Fifth digit">
+                        <input type="text" maxlength="1" class="verification-digit" aria-label="Sixth digit">
+                    </div>
+                    <button type="submit" class="btn btn--primary btn--full-width">Verify</button>
+                </form>
+                <div class="tfa-footer">
+                    <a href="#" id="resendCode">Resend code</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay hidden" aria-hidden="true">
+        <div class="loading-spinner">
+            <div class="spinner"></div>
+            <p class="loading-text">Processing...</p>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
