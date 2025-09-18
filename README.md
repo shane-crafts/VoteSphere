@@ -1,2 +1,2 @@
 # VoteSphere
-A onlinve voting system
+A online voting system
