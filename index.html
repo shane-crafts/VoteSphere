@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VoteSecure | Online Voting Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #3498db;
+            --primary-dark: #2980b9;
+            --secondary: #2ecc71;
+            --secondary-dark: #27ae60;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --text: #34495e;
+            --admin: #9b59b6;
+            --voter: #f39c12;
+            --gradient-start: #3498db;
+            --gradient-end: #2c3e50;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+            color: var(--light);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 30px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo i {
+            font-size: 2.5rem;
+            color: var(--light);
+        }
+        
+        .logo h1 {
+            font-weight: 700;
+            font-size: 2.2rem;
+            color: white;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+        
+        nav a {
+            text-decoration: none;
+            color: var(--light);
+            font-weight: 600;
+            padding: 8px 15px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        nav a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 50px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin-bottom: 40px;
+        }
+        
+        .hero h2 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            color: white;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            color: var(--light);
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-secondary {
+            background: var(--secondary);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--secondary-dark);
+        }
+        
+        .login-section {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        
+        .login-card {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+        
+        .login-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .card-header {
+            padding: 25px;
+            text-align: center;
+            color: white;
+        }
+        
+        .admin-header {
+            background: var(--admin);
+        }
+        
+        .voter-header {
+            background: var(--voter);
+        }
+        
+        .card-header i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+        
+        .card-header h3 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+        
+        .card-body {
+            padding: 25px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: white;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border 0.3s ease;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+        
+        .form-group input:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+        
+        .form-group input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        
+        .feature-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .feature-card i {
+            font-size: 2.5rem;
+            color: var(--light);
+            margin-bottom: 20px;
+        }
+        
+        .feature-card h3 {
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+            color: white;
+        }
+        
+        .feature-card p {
+            color: var(--light);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px;
+            margin-top: 50px;
+            color: var(--light);
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        @media (max-width: 768px) {
+            .login-section {
+                flex-direction: column;
+            }
+            
+            nav ul {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 80px;
+                right: 20px;
+                background: rgba(255, 255, 255, 0.1);
+                backdrop-filter: blur(10px);
+                padding: 20px;
+                border-radius: 10px;
+                width: 200px;
+            }
+            
+            nav ul.active {
+                display: flex;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .hero h2 {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-vote-yea"></i>
+                <h1>VoteSecure</h1>
+            </div>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav>
+                <ul id="navMenu">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Elections</a></li>
+                    <li><a href="#">Results</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+        </header>
+        
+        <section class="hero">
+            <h2>Secure Online Voting Platform</h2>
+            <p>VoteSecure provides a reliable and easy-to-use platform for conducting elections with transparency and integrity.</p>
+            <a href="#" class="btn">View Upcoming Elections</a>
+        </section>
+        
+        <section class="login-section">
+            <div class="login-card">
+                <div class="card-header admin-header">
+                    <i class="fas fa-user-shield"></i>
+                    <h3>Admin Login</h3>
+                    <p>Election Management Portal</p>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="admin-username">Username</label>
+                        <input type="text" id="admin-username" placeholder="Admin username">
+                    </div>
+                    <div class="form-group">
+                        <label for="admin-password">Password</label>
+                        <input type="password" id="admin-password" placeholder="Enter your password">
+                    </div>
+                    <button class="btn">Login as Admin</button>
+                </div>
+            </div>
+            
+            <div class="login-card">
+                <div class="card-header voter-header">
+                    <i class="fas fa-user-check"></i>
+                    <h3>Voter Login</h3>
+                    <p>Voter Voting Portal</p>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="voter-id">Voter ID</label>
+                        <input type="text" id="voter-id" placeholder="Your voter ID">
+                    </div>
+                    <div class="form-group">
+                        <label for="voter-password">Password</label>
+                        <input type="password" id="voter-password" placeholder="Enter your password">
+                    </div>
+                    <button class="btn btn-secondary">Login as Voter</button>
+                </div>
+            </div>
+        </section>
+        
+        <section class="features">
+            <div class="feature-card">
+                <i class="fas fa-lock"></i>
+                <h3>Secure Voting</h3>
+                <p>Our platform uses advanced encryption to ensure your vote remains confidential and secure.</p>
+            </div>
+            
+            <div class="feature-card">
+                <i class="fas fa-check-circle"></i>
+                <h3>Easy to Use</h3>
+                <p>Simple and intuitive interface designed for voters of all technical abilities.</p>
+            </div>
+            
+            <div class="feature-card">
+                <i class="fas fa-chart-bar"></i>
+                <h3>Real-time Results</h3>
+                <p>View election results in real-time as votes are counted (after polls close).</p>
+            </div>
+        </section>
+        
+        <footer>
+            <p>&copy; 2023 VoteSecure Online Voting System. All rights reserved.</p>
+            <p>Designed with <i class="fas fa-heart" style="color: var(--accent);"></i> for democratic participation</p>
+        </footer>
+    </div>
+
+    <script>
+        // Simple form validation
+        document.addEventListener('DOMContentLoaded', function() {
+            const adminLoginBtn = document.querySelector('.login-card:first-child .btn');
+            const voterLoginBtn = document.querySelector('.login-card:nth-child(2) .btn');
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const navMenu = document.getElementById('navMenu');
+            
+            adminLoginBtn.addEventListener('click', function() {
+                const username = document.getElementById('admin-username').value;
+                const password = document.getElementById('admin-password').value;
+                
+                if (!username || !password) {
+                    alert('Please enter both username and password for admin login.');
+                    return;
+                }
+                
+                // Simulate login process
+                alert('Admin login successful! Redirecting to admin dashboard.');
+            });
+            
+            voterLoginBtn.addEventListener('click', function() {
+                const voterId = document.getElementById('voter-id').value;
+                const password = document.getElementById('voter-password').value;
+                
+                if (!voterId || !password) {
+                    alert('Please enter both Voter ID and password for voter login.');
+                    return;
+                }
+                
+                // Simulate login process
+                alert('Voter login successful! Redirecting to voting portal.');
+            });
+            
+            // Mobile menu toggle
+            mobileMenuBtn.addEventListener('click', function() {
+                navMenu.classList.toggle('active');
+                
+                // Change icon based on menu state
+                const icon = mobileMenuBtn.querySelector('i');
+                if (navMenu.classList.contains('active')) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                } else {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            });
+            
+            // Close menu when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!event.target.closest('#navMenu') && !event.target.closest('#mobileMenuBtn')) {
+                    navMenu.classList.remove('active');
+                    const icon = mobileMenuBtn.querySelector('i');
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
