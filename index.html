@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VoteSecure - Online Voting Platform</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <h2>🗳️ VoteSecure</h2>
+            </div>
+            <div class="nav-links">
+                <a href="#" id="homeLink" class="nav-link active">Home</a>
+                <a href="#" id="dashboardLink" class="nav-link">Dashboard</a>
+                <a href="#" id="resultsLink" class="nav-link">Results</a>
+                <button id="loginBtn" class="btn btn--primary">Login</button>
+                <button id="logoutBtn" class="btn btn--outline hidden">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Home Section -->
+        <section id="homeSection" class="section">
+            <div class="container">
+                <div class="hero">
+                    <h1>Secure Online Voting Platform</h1>
+                    <p class="hero-subtitle">Your voice matters. Vote securely and transparently.</p>
+                    <button id="heroVoteBtn" class="btn btn--primary btn--lg">Vote Now</button>
+                    <div class="trust-indicators">
+                        <div class="trust-grid">
+                            <div class="trust-item">
+                                <span class="trust-icon">🔒</span>
+                                <span>256-bit SSL Encryption</span>
+                            </div>
+                            <div class="trust-item">
+                                <span class="trust-icon">✓</span>
+                                <span>Verified by Election Commission</span>
+                            </div>
+                            <div class="trust-item">
+                                <span class="trust-icon">⚡</span>
+                                <span>99.9% Uptime Guarantee</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-number">15,420</div>
+                            <div class="stat-label">Registered Users</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">3</div>
+                            <div class="stat-label">Active Elections</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">12,847</div>
+                            <div class="stat-label">Votes Cast</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dashboard Section -->
+        <section id="dashboardSection" class="section hidden">
+            <div class="container">
+                <h1>Election Dashboard</h1>
+                <p class="section-subtitle">Participate in active elections</p>
+                
+                <div class="elections-grid" id="electionsList">
+                    <!-- Elections will be populated by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Results Section -->
+        <section id="resultsSection" class="section hidden">
+            <div class="container">
+                <h1>Election Results</h1>
+                <p class="section-subtitle">View completed election results</p>
+                
+                <div class="results-container">
+                    <div class="card">
+                        <div class="card__body">
+                            <h3>No completed elections yet</h3>
+                            <p>Results will be displayed here once elections are completed.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal hidden">
+        <div class="modal-backdrop">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Login to VoteSecure</h3>
+                    <button id="closeModal" class="close-btn">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <label class="form-label" for="username">Username or Email</label>
+                            <input type="text" id="username" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="password">Password</label>
+                            <input type="password" id="password" class="form-control" required>
+                        </div>
+                        <button type="submit" class="btn btn--primary btn--full-width">Login</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Voting Modal -->
+    <div id="votingModal" class="modal hidden">
+        <div class="modal-backdrop">
+            <div class="modal-content modal-large">
+                <div class="modal-header">
+                    <h3 id="votingTitle">Election Ballot</h3>
+                    <button id="closeVotingModal" class="close-btn">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div id="ballotContent">
+                        <!-- Ballot questions will be populated here -->
+                    </div>
+                    <div class="voting-actions">
+                        <button id="submitVote" class="btn btn--primary">Submit Vote</button>
+                        <button id="cancelVote" class="btn btn--outline">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="modal hidden">
+        <div class="modal-backdrop">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <div class="success-icon">✅</div>
+                    <h3>Vote Submitted Successfully!</h3>
+                    <p>Your vote has been recorded securely and anonymously.</p>
+                    <button id="closeSuccessModal" class="btn btn--primary">Continue</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
