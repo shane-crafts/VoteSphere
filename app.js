@@ -72,6 +72,73 @@ let currentElection = null;
 let currentQuestionIndex = 0;
 let ballotSelections = {};
 let carouselIndex = 0;
+let currentTheme = 'light';
+
+// Theme Management
+function initializeTheme() {
+  // Check for saved theme preference or default to system preference
+  const savedTheme = getSavedTheme();
+  const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  
+  currentTheme = savedTheme || (systemPrefersDark ? 'dark' : 'light');
+  applyTheme(currentTheme);
+  
+  console.log('Theme initialized:', currentTheme);
+}
+
+function getSavedTheme() {
+  try {
+    return sessionStorage.getItem('theme');
+  } catch (error) {
+    console.warn('Could not access sessionStorage for theme');
+    return null;
+  }
+}
+
+function saveTheme(theme) {
+  try {
+    sessionStorage.setItem('theme', theme);
+    console.log('Theme saved:', theme);
+  } catch (error) {
+    console.warn('Could not save theme to sessionStorage');
+  }
+}
+
+function applyTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  currentTheme = theme;
+  saveTheme(theme);
+  
+  console.log('Theme applied:', theme);
+}
+
+function toggleTheme() {
+  const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+  console.log('Toggling theme from', currentTheme, 'to', newTheme);
+  applyTheme(newTheme);
+  
+  // Redraw charts if they exist
+  const resultsChart = document.getElementById('resultsChart');
+  if (resultsChart && currentElection) {
+    drawResultsChart();
+  }
+}
+
+// Listen for system theme changes
+function setupThemeListener() {
+  const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+  const handleChange = (e) => {
+    if (!getSavedTheme()) {
+      applyTheme(e.matches ? 'dark' : 'light');
+    }
+  };
+  
+  if (mediaQuery.addListener) {
+    mediaQuery.addListener(handleChange);
+  } else {
+    mediaQuery.addEventListener('change', handleChange);
+  }
+}
 
 // Utility Functions
 function showElement(element) {
@@ -84,7 +151,6 @@ function showElement(element) {
 function hideElement(element) {
   if (element) {
     element.classList.add('hidden');
-    element.style.display = 'none';
   }
 }
 
@@ -210,7 +276,6 @@ function openModal(modalId) {
   console.log('Opening modal:', modalId);
   const modal = document.getElementById(modalId);
   if (modal) {
-    modal.style.display = 'flex';
     modal.classList.remove('hidden');
     
     // Focus the first input
@@ -228,7 +293,6 @@ function closeModal(modalId) {
   console.log('Closing modal:', modalId);
   const modal = document.getElementById(modalId);
   if (modal) {
-    modal.style.display = 'none';
     modal.classList.add('hidden');
     
     // Clear form data
@@ -592,6 +656,10 @@ function drawResultsChart() {
   // Clear canvas
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   
+  // Get current theme colors
+  const isDark = currentTheme === 'dark';
+  const textColor = isDark ? '#e2e8f0' : '#1a365d';
+  
   // Draw bar chart
   const barWidth = 80;
   const barSpacing = 40;
@@ -609,7 +677,7 @@ function drawResultsChart() {
     ctx.fillRect(x, y, barWidth, barHeight);
     
     // Draw label
-    ctx.fillStyle = '#1a365d';
+    ctx.fillStyle = textColor;
     ctx.font = '12px Open Sans';
     ctx.textAlign = 'center';
     ctx.fillText(item.label.split(' ')[0], x + barWidth / 2, canvas.height - 40);
@@ -622,7 +690,7 @@ function drawResultsChart() {
   // Draw title
   ctx.font = 'bold 16px Poppins';
   ctx.textAlign = 'center';
-  ctx.fillStyle = '#1a365d';
+  ctx.fillStyle = textColor;
   ctx.fillText('Election Results - ' + question.question, canvas.width / 2, 20);
   
   console.log('Results chart drawn');
@@ -666,6 +734,17 @@ function getTwoFactorCode() {
 function setupEventListeners() {
   console.log('Setting up event listeners...');
   
+  // Theme toggle
+  const themeToggle = document.getElementById('themeToggle');
+  if (themeToggle) {
+    themeToggle.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      console.log('Theme toggle clicked');
+      toggleTheme();
+    });
+  }
+  
   // Navigation buttons
   const loginBtn = document.getElementById('loginBtn');
   const registerBtn = document.getElementById('registerBtn');
@@ -674,6 +753,7 @@ function setupEventListeners() {
   if (loginBtn) {
     loginBtn.addEventListener('click', (e) => {
       e.preventDefault();
+      e.stopPropagation();
       console.log('Login button clicked');
       openModal('loginModal');
     });
@@ -682,6 +762,7 @@ function setupEventListeners() {
   if (registerBtn) {
     registerBtn.addEventListener('click', (e) => {
       e.preventDefault();
+      e.stopPropagation();
       console.log('Register button clicked');
       openModal('registerModal');
     });
@@ -690,6 +771,7 @@ function setupEventListeners() {
   if (logoutBtn) {
     logoutBtn.addEventListener('click', (e) => {
       e.preventDefault();
+      e.stopPropagation();
       console.log('Logout button clicked');
       clearSession();
       showPage('landingPage');
@@ -703,6 +785,7 @@ function setupEventListeners() {
   if (getStartedBtn) {
     getStartedBtn.addEventListener('click', (e) => {
       e.preventDefault();
+      e.stopPropagation();
       console.log('Get Started button clicked');
       if (currentUser) {
         showPage(currentUser.role === 'admin' ? 'adminDashboard' : 'voterDashboard');
@@ -715,6 +798,7 @@ function setupEventListeners() {
   if (learnMoreBtn) {
     learnMoreBtn.addEventListener('click', (e) => {
       e.preventDefault();
+      e.stopPropagation();
       console.log('Learn More button clicked');
       const trustSection = document.querySelector('.trust-section');
       if (trustSection) {
@@ -727,18 +811,20 @@ function setupEventListeners() {
   document.querySelectorAll('.modal-close').forEach(element => {
     element.addEventListener('click', (e) => {
       e.preventDefault();
+      e.stopPropagation();
       const modal = e.target.closest('.modal');
       if (modal) {
-        hideElement(modal);
+        closeModal(modal.id);
       }
     });
   });
   
   document.querySelectorAll('.modal-backdrop').forEach(element => {
     element.addEventListener('click', (e) => {
+      e.stopPropagation();
       const modal = e.target.closest('.modal');
       if (modal) {
-        hideElement(modal);
+        closeModal(modal.id);
       }
     });
   });
@@ -1023,10 +1109,10 @@ function setupEventListeners() {
   document.addEventListener('keydown', (e) => {
     // ESC key closes modals
     if (e.key === 'Escape') {
-      const openModal = document.querySelector('.modal:not(.hidden)');
-      if (openModal) {
-        hideElement(openModal);
-      }
+      const openModals = document.querySelectorAll('.modal:not(.hidden)');
+      openModals.forEach(modal => {
+        closeModal(modal.id);
+      });
     }
     
     // Arrow keys for carousel
@@ -1047,6 +1133,10 @@ function setupEventListeners() {
 // Initialize Application
 function initializeApp() {
   console.log('Initializing SecureVote application...');
+  
+  // Initialize theme first
+  initializeTheme();
+  setupThemeListener();
   
   // Load initial data
   loadElections();
